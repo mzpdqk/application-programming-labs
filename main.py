@@ -4,16 +4,19 @@ import numpy as np
 import sys
 
 def load_image(file_path):
+     #загружает изображение из указанного пути, выбрасывает ValueError в случае ошибки
     image = cv2.imread(file_path)
     if image is None:
         raise ValueError(f"Unable to load image from {file_path}")
     return image
 
 def display_image_size(image, name):
+    #выводит размеры изображения (ширину и высоту) в консоль.
     height, width, _ = image.shape
     print(f"Size of {name}: {width}x{height}")
 
 def plot_histogram(image, title):
+    #cтроит и отображает гистограмму интенсивности цветов для изображения.
     color = ('b', 'g', 'r')
     for i, col in enumerate(color):
         histr = cv2.calcHist([image], [i], None, [256], [0, 256])
@@ -25,6 +28,7 @@ def plot_histogram(image, title):
     plt.show()
 
 def blend_images(base_image, overlay_image, alpha):
+# cмешивает базовое и наложенное изображения с заданным коэффициентом альфа
     overlay_image = cv2.resize(overlay_image, (base_image.shape[1], base_image.shape[0]))
     blended = cv2.addWeighted(base_image, 1 - alpha, overlay_image, alpha, 0)
     return blended
@@ -67,10 +71,10 @@ if __name__ == "__main__":
         print("Usage: python script.py <base_image_path> <overlay_image_path> <output_path> <alpha>")
         sys.exit(1)
 
-    base_image_path = r'C:\Users\User\PycharmProjects\Lab3\base_image.jpg'  # Use raw string
-    overlay_image_path = r'C:\Users\User\PycharmProjects\Lab3\overlay_image.jpg'  # Adjust this path
-    output_path = r'C:\Users\User\PycharmProjects\Lab3\output_image.jpg'  # Adjust this path
-    alpha = float(sys.argv[4])  # Ensure alpha is passed correctly
+    base_image_path = r'C:\Users\User\PycharmProjects\Lab3\base_image.jpg'  
+    overlay_image_path = r'C:\Users\User\PycharmProjects\Lab3\overlay_image.jpg'  
+    output_path = r'C:\Users\User\PycharmProjects\Lab3\output_image.jpg'  
+    alpha = float(sys.argv[4]) 
 
     main(base_image_path, overlay_image_path, output_path, alpha)
 
