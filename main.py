@@ -85,7 +85,7 @@ def main(base_image_path: str, overlay_image_path: str, output_path: str, alpha:
 
 if __name__ == "__main__":
     if len(sys.argv) != 5:
-        print("Usage: python script.py <base_image_path> <overlay_image_path> <output_path> <alpha>")
+        print("Usage: python main.py <base_image_path> <overlay_image_path> <output_path> <alpha>")
         sys.exit(1)
 
     base_image_path = r'C:\Users\ivc-user\PycharmProjects\Lab3\base_image.jpg'
