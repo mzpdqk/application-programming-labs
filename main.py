@@ -1,12 +1,12 @@
 import cv2
 import matplotlib.pyplot as plt
 import numpy as np
-import sys
+import argparse
 
 def load_image(file_path: str) -> np.ndarray:
     """
-     Загружает изображение из указанного пути, выбрасывает ValueError в случае ошибки
-    :param file_path: file_path (str): путь к изображению
+    Загружает изображение из указанного пути, выбрасывает ValueError в случае ошибки
+    :param file_path: путь к изображению
     :return: image
     raise: ValueError если не удается открыть файл.
     """
@@ -17,7 +17,7 @@ def load_image(file_path: str) -> np.ndarray:
 
 def display_image_size(image: np.ndarray, name: str) -> None:
     """
-    Выводит размеры изобржения в консоль
+    Выводит размеры изображения в консоль
     :param image: изображение размеры которого выводятся
     :param name: название изображения
     """
@@ -26,7 +26,7 @@ def display_image_size(image: np.ndarray, name: str) -> None:
 
 def plot_histogram(image, title) -> None:
     """
-    Cтроит и отображает гистограмму интенсивности цветов для изображения.
+    Строит и отображает гистограмму интенсивности цветов для изображения.
     :param image: изображение для построения гистограммы
     :param title: заголовок для гистограммы
     """
@@ -45,6 +45,7 @@ def blend_images(base_image: np.ndarray, overlay_image: np.ndarray, alpha: float
     :param base_image: базовое изображение
     :param overlay_image: наложенное изображение
     :param alpha: коэффициент прозрачности (от 0.0 до 1.0)
+    :return: смешанное изображение
     """
     overlay_image = cv2.resize(overlay_image, (base_image.shape[1], base_image.shape[0]))
     blended = cv2.addWeighted(base_image, 1 - alpha, overlay_image, alpha, 0)
@@ -84,14 +85,15 @@ def main(base_image_path: str, overlay_image_path: str, output_path: str, alpha:
     print(f"Blended image saved to {output_path}")
 
 if __name__ == "__main__":
-    if len(sys.argv) != 5:
-        print("Usage: python main.py <base_image_path> <overlay_image_path> <output_path> <alpha>")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description=' blend two images with alpha value.')
+    parser.add_argument('base_image_path', type=str, help=' path to the base image')
+    parser.add_argument('overlay_image_path', type=str, help='path to the overlay image')
+    parser.add_argument('output_path', type=str, help='path to save the blended image')
+    parser.add_argument('alpha', type=float, help='alpha value (0.0 to 1.0)')
 
-    base_image_path = r'C:\Users\ivc-user\PycharmProjects\Lab3\base_image.jpg'
-    overlay_image_path = r'C:\Users\ivc-user\PycharmProjects\Lab3\overlay_image.jpg'
-    output_path = r'C:\Users\ivc-user\PycharmProjects\Lab3\output_image.jpg'
-    alpha = float(sys.argv[4]) 
+    args = parser.parse_args()
 
-    main(base_image_path, overlay_image_path, output_path, alpha)
+    main(args.base_image_path, args.overlay_image_path, args.output_path, args.alpha)
+
+
 
